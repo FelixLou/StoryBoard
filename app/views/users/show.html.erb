@@ -1,1 +1,7 @@
 <%= @user.name %>, <%= @user.email %>
+
+ <% if current_user.admin? && current_user?(@user)%>
+ <div><%= link_to "add people", signup_path %></div>
+ 
+ 
+ <%end%>
