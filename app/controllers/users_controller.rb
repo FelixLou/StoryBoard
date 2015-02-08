@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   
   def create
     @user=User.new(user_params)
-    @user.admin=true if params[:admin]
+    @user.admin=true  if params[:admin]=="true"
     if @user.save
       flash[:success]="Successful created!"
       redirect_to root_path
@@ -47,7 +47,6 @@ class UsersController < ApplicationController
   
   private
   def user_params
-    puts "--------- "+params[:admin]+" -----------"
     params.require(:user).permit(:name, :email, :password, :admin)
   end
   

@@ -1,4 +1,17 @@
-<%= @user.name %>, <%= @user.email %>
+<% provide(:title, 'Profile') %>
+<h1>User Profile</h1>
+<p>
+ <b>Name:</b><br>
+<%= @user.name %><br>
+<b>Email:</b><br>
+<%= @user.email %><br>
+<b>Role:</b><br>
+<% if@user.admin %>
+    Administer
+  <%else%>
+    Developer
+<%end%>
+</p>
 
  <% if current_user.admin? && current_user?(@user)%>
  <div><%= link_to "add people", signup_path %></div>
