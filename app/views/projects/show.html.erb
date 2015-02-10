@@ -1,0 +1,36 @@
+<h1>Show Project</h1>
+<p>
+  <strong>Title:</strong>
+  <%= @project.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @project.description %>
+</p>
+
+<p>
+  <strong>StoryBoard</strong>
+  <p>Analysis <%= @point1%></p>
+  <p>Ready For Dev <%= @point2%></p>
+  <p>In Dev <%= @point3%></p>
+  <p>Dev Complete <%= @point4 %></p>
+  <p>In Test <%= @point5 %></p>
+</p>
+
+<p>
+  <strong>Developer:</strong>
+  <%= @project.users.each do |u| %>
+    <p>Name:<%= u.name %></p>
+    <p>Email:<%= u.email %></p>
+  <% end %>
+</p>
+<%=form_for @user,url: project_path(@project) do |f| %>
+    <%= f.label :email%>
+    <%= f.email_field :email%>
+    <%= f.submit 'add' %>
+<% end%>
+
+<p></p>
+<%= link_to 'Show Stories',project_stories_path(@project) %>
+<%= link_to 'Back', projects_path%>

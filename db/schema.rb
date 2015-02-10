@@ -11,15 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150207010200) do
+ActiveRecord::Schema.define(version: 20150208191817) do
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "stories", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.float    "point"
+    t.integer  "project_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "stage"
+  end
+
+  add_index "stories", ["project_id"], name: "index_stories_on_project_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "email"
     t.string   "password"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "admin",      default: false
+    t.boolean  "admin"
+    t.integer  "story_id"
+    t.integer  "project_id"
   end
+
+  add_index "users", ["project_id"], name: "index_users_on_project_id"
+  add_index "users", ["story_id"], name: "index_users_on_story_id"
 
 end

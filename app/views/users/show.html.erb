@@ -1,20 +1,20 @@
 <% provide(:title, 'Profile') %>
 <h1>User Profile</h1>
 <p>
- <b>Name:</b><br>
-<%= @user.name %><br>
-<b>Email:</b><br>
-<%= @user.email %><br>
-<b>Role:</b><br>
-<% if@user.admin %>
-    Administer
+  <b>Name:</b><br>
+  <%= @user.name %><br>
+  <b>Email:</b><br>
+  <%= @user.email %><br>
+  <b>Role:</b><br>
+  <% if@user.admin %>
+      Administer
   <%else%>
-    Developer
-<%end%>
+      Developer
+  <%end%>
 </p>
+<%= link_to "show all projects", projects_path %>
+<% if current_user.admin? && current_user?(@user)%>
+    <div><%= link_to "add people", signup_path %></div>
 
- <% if current_user.admin? && current_user?(@user)%>
- <div><%= link_to "add people", signup_path %></div>
- 
- 
- <%end%>
+
+<%end%>

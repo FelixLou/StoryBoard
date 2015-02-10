@@ -1,0 +1,36 @@
+<p>
+  <strong>Title:</strong>
+  <%= story.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= story.description %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= story.point %>
+</p>
+
+<p>
+  <strong>Stage:</strong>
+  <%= story.stage %>
+</p>
+
+<p>
+  <strong>Developer:</strong>
+      <%= story.users.each do |u| %>
+        <p>Name:<%= u.name %></p>
+        <p>Email:<%= u.email %></p>
+      <% end %>
+</p>
+<p>
+  <% if !current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil %>
+  <%= link_to 'Sign Up' , @story %>
+  <% end %>
+  <% if !current_user.admin? && @project.id == current_user.project_id %>
+  <%= link_to 'Destroy Story',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%>
+  <% end%>
+</p>
+<p>---------------------------</p>
