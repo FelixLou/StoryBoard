@@ -1,0 +1,8 @@
+<h1>replace</h1>
+<%= form_for :user, url:project_story_path(@project,@story) do |f| %>
+<%= @story.users.each do |u|%>
+    <p><%=f.label :name%><%= ": "+u.name %></p>
+    <p><%=f.label :email%><%= ": "+u.email %></p>
+    <%= f.submit 'replace' %>
+<%  end %>
+<% end %>
