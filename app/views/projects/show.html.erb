@@ -23,6 +23,7 @@
   <% @project.users.each do |u| %>
     <p>Name:<%= u.name %></p>
     <p>Email:<%= u.email %></p>
+    <p>---------------------</p>
   <% end %>
 </p>
 <% if current_user&&current_user.admin? %>
@@ -34,5 +35,5 @@
 <% end %>
 
 <p></p>
-<%= link_to 'Show Stories',project_stories_path(@project) %>
+<%= link_to 'ShowStories',project_stories_path(@project) %>
 <%= link_to 'Back', projects_path%>

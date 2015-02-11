@@ -1,21 +1,17 @@
 <h1>Editing project</h1>
 
-<%= form_for :@project,url: project_path,  method: :patch do |p| %>
+    <p><b>old value</b></p>
+    <p>
+      <strong>Title:</strong>
+      <%= @project.title %>
+    </p>
 
-    <% if @project.errors.any? %>
-        <div id="error_explanation">
-          <h2>
-            <%= pluralize(@project.errors.count, "error") %> prohibited
-            this project from being saved:
-          </h2>
-          <ul>
-            <% @project.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
-
+    <p>
+      <strong>Description:</strong>
+      <%= @project.description %>
+    </p>
+    <p>---------------------------</p>
+<%= form_for @project, url: project_path(@project), method: :patch do |p| %>
     <p>
       <%= p.label :title %><br>
       <%= p.text_field :title %>
@@ -27,7 +23,7 @@
     </p>
 
     <p>
-      <%= p.submit %>
+      <%= p.submit 'update' %>
     </p>
 
 <% end %>
