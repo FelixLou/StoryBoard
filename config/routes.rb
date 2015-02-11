@@ -22,8 +22,14 @@ Rails.application.routes.draw do
   resources :users
   post 'projects/:id' =>'projects#add_developer'
   post 'projects/:project_id/stories/:id'=>'stories#replace_user'
+<<<<<<< HEAD
+=======
   get 'projects/:project_id/stories/:id/signoff'=>'stories#signoff', as: :signoff
+<<<<<<< HEAD
   post 'projects/:project_id/search'=>'projects#search', as: :search
+=======
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
+>>>>>>> a214b528860e26a12e97738a14affdafb03a8660
   resources :projects do
     resources :stories
   end

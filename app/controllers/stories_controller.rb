@@ -6,15 +6,27 @@ class StoriesController < ApplicationController
 
   def replace_user
     @project = Project.find(params[:project_id])
+<<<<<<< HEAD
+    if params[:id]!=nil
+      @temp_story=Story.find(params[:id])
+      @selected_user = User.find(params[:id])
+=======
       @temp_story=Story.find(params[:id])
     if @temp_story.users[0]!=current_user && @temp_story.users[1]!=current_user
       @selected_user = User.find(params[:user][:id])
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
       @selected_user.story_id = nil
       @selected_user.save
       current_user.story_id = @temp_story.id
       current_user.save
+<<<<<<< HEAD
+    else
+      redirect_to @project
+    end
+=======
     end
       redirect_to project_stories_path(@project)
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
   end
 
   def show
@@ -23,12 +35,17 @@ class StoriesController < ApplicationController
     if @story.users.count<2
       current_user.story_id = @story.id
       current_user.save
+<<<<<<< HEAD
+=======
       redirect_to project_stories_path(@project)
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
     else
       render 'replace'
     end
   end
 
+<<<<<<< HEAD
+=======
   def signoff
     @project = Project.find(params[:project_id])
     @story = Story.find(params[:id])
@@ -37,6 +54,7 @@ class StoriesController < ApplicationController
     redirect_to project_stories_path(@project)
   end
 
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
   def edit
     @project = Project.find(params[:project_id])
     @story = Story.find(params[:id])
