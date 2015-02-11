@@ -1,0 +1,15 @@
+<% if @story!=nil%>
+    <p><b>search result</b></p>
+    <p><b>title:</b></p><%= @story.title%>
+    <p><b>description:</b></p><%= @story.description%>
+    <p><b>point:</b></p><%= @story.point%>
+    <p><b>stage:</b></p><%= @story.stage%>
+    <p><b>developer:</b></p>
+    <% @story.users.each do|u|%>
+        <p>name:<%= u.name%></p>
+        <p>email:<%= u.email%></p>
+        <p>-------------------</p>
+    <% end%>
+<%end%>
+<p></p>
+<%=link_to 'Back', project_stories_path(@project)%>

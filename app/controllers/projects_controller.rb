@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :logged_in_user, only: [:create,:new, :index,:edit,:update,:show,:destroy]
-  #before_action :correct_user, only: [:edit,:update]
+  before_action :correct_user, only: [:edit,:update]
   def new
     @project = Project.new
   end
@@ -10,6 +10,14 @@ class ProjectsController < ApplicationController
       redirect_to @project
     else
       render 'new'
+    end
+  end
+
+  def search
+    @project = Project.find(params[:project_id])
+    @story = Story.find_by(story_params)
+    if @story == nil || @story.project_id != @project.id
+      flash.now[:danger]='can not find the specific story in this project!'
     end
   end
 
@@ -92,6 +100,9 @@ class ProjectsController < ApplicationController
   private
   def project_params
      params.require(:project).permit(:title,:description)
+  end
+  def story_params
+    params.require(:story).permit(:title,:description)
   end
   def user_params
     params.require(:user).permit(:email)

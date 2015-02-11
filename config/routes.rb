@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post 'projects/:id' =>'projects#add_developer'
   post 'projects/:project_id/stories/:id'=>'stories#replace_user'
   get 'projects/:project_id/stories/:id/signoff'=>'stories#signoff', as: :signoff
+  post 'projects/:project_id/search'=>'projects#search', as: :search
   resources :projects do
     resources :stories
   end
