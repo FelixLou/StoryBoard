@@ -13,17 +13,44 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def edit
+    @project = Project.find(params[:project_id])
+  end
+
+  def update
+    @project = Project.find(params[:id])
+    @project.update(project_params)
+    redirect_to projects_path
+  end
+
   def add_developer
     @user1 = User.new()
     @project = Project.find(params[:id])
     @user1 = User.find_by(user_params)
 
+<<<<<<< HEAD
     if @user1!=nil && !@user1.admin? && @user1.project_id == nil
           @user1.project_id = @project.id
           @user1.save
           redirect_to @project
     else
           flash.now[:danger]='we can not add this user to the project, please input another user!'
+=======
+    if @user1!=nil && @user1.project_id == nil && !@user1.admin?
+          @user1.project_id = @project.id
+          @user1.save
+          redirect_to @project
+    elsif @user1==nil
+      flash.now[:danger]='this user does not exists!'
+    elsif @user1.project_id !=nil
+      if @user1.project_id == @project.id
+        flash.now[:danger]='this user already belongs to this project!'
+      else
+        flash.now[:danger]='this user already belongs to other project!'
+      end
+    elsif @user1.admin?
+      flash.now[:danger]='you cannot add an admin to a project!'
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
     end
   end
 
@@ -62,6 +89,13 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:id])
+    @project.users.each do |u_p|
+      u_p.project_id = u_p.story_id=  nil
+      u_p.save
+    end
+    @project.stories.each do|s|
+      s.destroy
+    end
     @project.destroy
     redirect_to projects_path
   end

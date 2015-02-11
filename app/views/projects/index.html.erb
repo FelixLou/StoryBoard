@@ -12,9 +12,12 @@
       <tr>
         <td><%= p.title %></td>
         <td><%= p.description %></td>
-        <td><%= link_to 'Show', project_path(p)%></td>
-        <% if current_user.admin? %>
-            <td><%= link_to 'Destroy', project_path(p), method: :delete,data:{confirm: 'Are you sure?'}%></td>
+        <td width = "50"><%= link_to 'Show', project_path(p)%></td>
+        <% if current_user.project_id == p.id %>
+        <td width = "50"><%= link_to 'Edit  ', edit_project_path(p)%></td>
+        <% end %>
+        <% if current_user.admin? || current_user.project_id == p.id%>
+            <td width ="50"><%= link_to 'Destroy  ', project_path(p), method: :delete,data:{confirm: 'Are you sure?'}%></td>
         <% end %>
       </tr>
   <% end %>

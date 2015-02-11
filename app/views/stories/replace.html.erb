@@ -1,4 +1,5 @@
 <h1>replace</h1>
+<<<<<<< HEAD
 <%= form_for :user, url:project_story_path(@project,@story) do |f| %>
 <%= @story.users.each do |u|%>
     <p><%=f.label :name%><%= ": "+u.name %></p>
@@ -6,3 +7,41 @@
     <%= f.submit 'replace' %>
 <%  end %>
 <% end %>
+=======
+<p>
+  <strong>Title:</strong>
+  <%= @story.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @story.description %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= @story.point %>
+</p>
+
+<p>
+  <strong>Stage:</strong>
+  <%= @story.stage %>
+</p>
+<p>-------------------------</p>
+
+<%= form_for :user, url:project_story_path(@project,@story) do |f| %>
+    <p><%=f.label :name%><%= ": "+@story.users[0].name %></p>
+    <p><%=f.label :email%><%= ": "+@story.users[0].email %></p>
+        <%=f.hidden_field :id,:value =>@story.users[0].id%>
+    <%= f.submit 'replace'%>
+    <p></p>
+<% end %>
+
+<%= form_for :user, url:project_story_path(@project,@story) do |f| %>
+    <p><%=f.label :name%><%= ": "+@story.users[1].name %></p>
+    <p><%=f.label :email%><%= ": "+@story.users[1].email %></p>
+    <%=f.hidden_field :id,:value =>@story.users[1].id%>
+    <%= f.submit 'replace'%>
+    <p></p>
+<% end %>
+>>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
