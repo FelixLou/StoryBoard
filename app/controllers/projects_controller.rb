@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :logged_in_user, only: [:create,:new, :index,:edit,:update,:show,:destroy]
-  before_action :correct_user, only: [:edit,:update]
+  #before_action :correct_user, only: [:edit,:update]
   def new
     @project = Project.new
   end
@@ -36,14 +36,6 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @user1 = User.find_by(user_params)
 
-<<<<<<< HEAD
-    if @user1!=nil && !@user1.admin? && @user1.project_id == nil
-          @user1.project_id = @project.id
-          @user1.save
-          redirect_to @project
-    else
-          flash.now[:danger]='we can not add this user to the project, please input another user!'
-=======
     if @user1!=nil && @user1.project_id == nil && !@user1.admin?
           @user1.project_id = @project.id
           @user1.save
@@ -58,7 +50,6 @@ class ProjectsController < ApplicationController
       end
     elsif @user1.admin?
       flash.now[:danger]='you cannot add an admin to a project!'
->>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
     end
   end
 

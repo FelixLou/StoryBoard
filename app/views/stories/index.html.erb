@@ -36,11 +36,8 @@
     </p>
     <p>
       <% if current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil&& story.users.count<2 %>
-<<<<<<< HEAD
-          <%= link_to 'Sign up', project_story_path(@project, story)%>
-=======
+
           <%= link_to 'SignUp' ,project_story_path(@project, story)%>
->>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
       <% end %>
       <% if current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil&& story.users.count==2 %>
           <%= link_to 'Replace', project_story_path(@project, story)%>
@@ -48,13 +45,10 @@
       <% if current_user&& !current_user.admin? && @project.id == current_user.project_id %>
           <%= link_to 'Edit', edit_project_story_path(@project, story)%>
       <% end %>
-<<<<<<< HEAD
 
-=======
       <% if current_user&& !current_user.admin? && @project.id ==current_user.project_id && story.id == current_user.story_id%>
         <%= link_to 'SignOff', signoff_path(@project,story) %>
       <% end %>
->>>>>>> 62d99ecddcc9adcedc992ae0c6b8040a81804125
       <% if current_user&&!current_user.admin? && @project.id == current_user.project_id %>
           <%= link_to 'Destroy Story',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%>
       <% end%>
