@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     @user=User.new(user_params)
     @user.admin=true  if params[:admin]=="true"
     if @user.save
+      UserMailer.welcome(@user).deliver_now
       flash[:success]="Successful created!"
       redirect_to root_path
     else

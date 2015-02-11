@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   resources :users
   post 'projects/:id' =>'projects#add_developer'
+  post 'projects/:project_id/stories/:id'=>'stories#replace_user'
   resources :projects do
     resources :stories
   end
