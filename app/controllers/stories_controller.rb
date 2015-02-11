@@ -58,6 +58,8 @@ class StoriesController < ApplicationController
   def create
     @project = Project.find(params[:project_id])
     @story = @project.stories.create(story_params)
+    @story.createdby= current_user.id
+    @story.save
     redirect_to project_stories_path(@project)
   end
 

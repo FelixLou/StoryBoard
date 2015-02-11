@@ -50,7 +50,7 @@
         <%= link_to 'SignOff', signoff_path(@project,story) %>
       <% end %>
       <% if current_user&&!current_user.admin? && @project.id == current_user.project_id %>
-          <%= link_to 'Destroy Story',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%>
+          <%= link_to 'DestroyStory',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%>
       <% end%>
     </p>
     <p>---------------------------</p>
