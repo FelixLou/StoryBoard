@@ -15,9 +15,29 @@ class ProjectsController < ApplicationController
 
   def search
     @project = Project.find(params[:project_id])
-    @story = Story.where('title = ? or description = ?', '%params[:title]%','%params[:description]')
-    if @story == nil || @story.project_id != @project.id
-      flash.now[:danger]='can not find the specific story in this project!'
+    @test = 0
+    @stories = nil
+    if params[:story][:title].length!=0 or params[:story][:description].length!=0
+      if params[:story][:description].length==0
+        @stories = Story.where("title like :k",:k=>"%#{params[:story][:title]}%")
+      elsif params[:story][:title].length==0
+        @stories = Story.where("description like :k",:k=>"%#{params[:story][:description]}%")
+      else
+        @stories = Story.where("title like :k or description like :w",:k=>"%#{params[:story][:title]}%", :w=>"%#{params[:story][:description]}%")
+      end
+      if @stories == nil
+        flash.now[:danger]='can not find the specific story in this project!'
+      end
+      @stories.each do |s|
+        if s.project_id == @project.id
+          @test =1
+        end
+      end
+      if @test == 0
+          flash.now[:danger]='can not find the specific story in this project!'
+      end
+    else
+      flash.now[:danger]='please input title and/or description !'
     end
   end
 
@@ -32,12 +52,24 @@ class ProjectsController < ApplicationController
   end
 
   def add_developer
+    @user1 = User.new()
     @project = Project.find(params[:id])
     @user1 = User.find_by(user_params)
-    if @user1!=nil && (!@user1.admin?)
+
+    if @user1!=nil && @user1.project_id == nil && !@user1.admin?
       @user1.project_id = @project.id
       @user1.save
       redirect_to @project
+    elsif @user1==nil
+      flash.now[:danger]='this user does not exists!'
+    elsif @user1.project_id !=nil
+      if @user1.project_id == @project.id
+        flash.now[:danger]='this user already belongs to this project!'
+      else
+        flash.now[:danger]='this user already belongs to other project!'
+      end
+    elsif @user1.admin?
+      flash.now[:danger]='you cannot add an admin to a project!'
     end
   end
 
@@ -75,12 +107,22 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:id])
+    @project.users.each do |u_p|
+      u_p.project_id = u_p.story_id=  nil
+      u_p.save
+    end
+    @project.stories.each do|s|
+      s.destroy
+    end
     @project.destroy
     redirect_to projects_path
   end
   private
   def project_params
      params.require(:project).permit(:title,:description)
+  end
+  def story_params
+    params.require(:story).permit(:title,:description)
   end
   def user_params
     params.require(:user).permit(:email)

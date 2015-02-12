@@ -3,7 +3,7 @@
 <%=form_for :story, url: search_path(@project) do |f|%>
 <p><%=f.label :title%></p><p><%=f.text_field :title%></p>
 <p><%=f.label :description%></p><p><%=f.text_field :description%></p>
-<%=f.submit 'search'%>
+<%=f.submit 'search' %>
 <%end%>
 <p></p>
 <% @stories.each do |story| %>
