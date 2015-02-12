@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
 
   def search
     @project = Project.find(params[:project_id])
-    @story = Story.find_by(story_params)
+    @story = Story.where('title = ? or description = ?', '%params[:title]%','%params[:description]')
     if @story == nil || @story.project_id != @project.id
       flash.now[:danger]='can not find the specific story in this project!'
     end
