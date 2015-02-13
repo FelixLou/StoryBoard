@@ -11,13 +11,25 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user=User.new(user_params)
-    @user.admin=true  if params[:admin]=="true"
-    if @user.save
-      UserMailer.welcome(@user).deliver_now
-      flash[:success]="Successful created!"
-      redirect_to root_path
+    @test =0
+    User.all.each do |u|
+      if u.email == params[:user][:email]
+        @test =1
+      end
+    end
+    if @test ==0
+      @user=User.new(user_params)
+      @user.admin=true  if params[:admin]=="true"
+      if @user.save
+        UserMailer.welcome(@user).deliver_now
+        flash[:success]="Successful created!"
+        redirect_to root_path
+      else
+        render 'new'
+      end
     else
+      @user= User.new
+      flash[:danger]="this email already registered!"
       render 'new'
     end
   end

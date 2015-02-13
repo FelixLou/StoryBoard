@@ -4,9 +4,10 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.welcome.subject
   #
+  default from: "from@example.com"
   def welcome(user)
     @user=user
-    mail to: user.email, subject: "Thanks for registration!"
+    mail to: @user.email, subject: "Thanks for registration!"
 
     
   end
