@@ -2,3 +2,7 @@ there are already one admin in the application
 name: admin
 email: admin@ncsu.edu
 password: admin@ncsu.edu
+
+for mail function, the code is located in:
+1. app/mailer/user_mailer.rb
+2. config/environment/development.rb
