@@ -1,61 +1,91 @@
 <h1>Listing stories</h1>
-<p><b>search for projects:</b></p>
+<h2>ATTENTION: Only if you have the right to click a button, the button is able to be clicked!</h2>
+<strong>search for projects:</strong>
 <%=form_for :story, url: search_path(@project) do |f|%>
-<p><%=f.label :title%></p><p><%=f.text_field :title%></p>
-<p><%=f.label :description%></p><p><%=f.text_field :description%></p>
-<%=f.submit 'search' %>
+    <table border="2">
+      <tr>
+        <td align="center"><%=f.label :title%></td>
+        <td align="center"><%=f.label :description%></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><%=f.text_field :title%></td>
+        <td><%=f.text_field :description%></td>
+        <td><%=f.submit 'search'%></td>
+      </tr>
+    </table>
 <%end%>
-<p></p>
+<br>
+
+<strong>list stories:</strong>
+<% if @stories.count > 0%>
+<table border="2">
+  <tr>
+    <td align="center" width="100">Title</td>
+    <td align="center" width="100">Description</td>
+    <td align="center" width="100">Point</td>
+    <td align="center" width="100">Stage</td>
+    <td align="center" width="100">Developer1</td>
+    <td align="center" width="100">Developer2</td>
+    <td align="center" width="100"></td><td align="center" width="100"></td><td align="center" width="100"></td>
+  </tr>
 <% @stories.each do |story| %>
-    <p>
-      <strong>Title:</strong>
-      <%= story.title %>
-    </p>
-
-    <p>
-      <strong>Description:</strong>
-      <%= story.description %>
-    </p>
-
-    <p>
-      <strong>Point:</strong>
-      <%= story.point %>
-    </p>
-
-    <p>
-      <strong>Stage:</strong>
-      <%= story.stage %>
-    </p>
-
-    <p>
-      <strong>Developer:</strong>
-      <% story.users.each do |u| %>
-        <p>Name:<%= u.name %></p>
-        <p>Email:<%= u.email %></p>
-    <% end %>
-    </p>
-    <p>
-      <% if current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil&& story.users.count<2 %>
-
-          <%= link_to 'SignUp' ,project_story_path(@project, story)%>
-      <% end %>
-      <% if current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil&& story.users.count==2 %>
-          <%= link_to 'Replace', project_story_path(@project, story)%>
-      <% end %>
-      <% if current_user&& !current_user.admin? && @project.id == current_user.project_id %>
-          <%= link_to 'Edit', edit_project_story_path(@project, story)%>
-      <% end %>
-
-      <% if current_user&& !current_user.admin? && @project.id ==current_user.project_id && story.id == current_user.story_id%>
-        <%= link_to 'SignOff', signoff_path(@project,story) %>
-      <% end %>
-      <% if current_user&&!current_user.admin? && @project.id == current_user.project_id %>
-          <%= link_to 'DestroyStory',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%>
-      <% end%>
-    </p>
-    <p>---------------------------</p>
+    <tr>
+      <td align="center"><%= story.title %></td>
+      <td align="center"><%= story.description %></td>
+      <td align="center"><%= story.point %></td>
+      <td align="center"><%= story.stage %></td>
+      <td align="center">
+        <% if story.users[0]&& current_user!= story.users[0] %>
+            <%= story.users[0].name+" ("+ story.users[0].email+")" %>
+        <% elsif current_user  == story.users[0] %>
+            <b><%= link_to 'SignOff', signoff_path(@project,story) %></b>
+        <% elsif current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil%>
+            <b><%= link_to 'SignUp' ,project_story_path(@project, story)%></b>
+        <% end %>
+      </td>
+      <td align="center">
+        <% if story.users[1]&& current_user!= story.users[1]%>
+            <%= story.users[1].name+" ("+ story.users[1].email+")" %>
+        <% elsif current_user  == story.users[1] %>
+            <b><%= link_to 'SignOff', signoff_path(@project,story) %></b>
+        <% elsif current_user&&!current_user.admin? && @project.id == current_user.project_id &&current_user.story_id ==nil%>
+            <b><%= link_to 'SignUp' ,project_story_path(@project, story)%></b>
+        <% end %>
+      </td>
+      <td align="center">
+        <% if (current_user && @project.id == current_user.project_id)|| current_user.admin %>
+            <b><%= link_to 'Edit', edit_project_story_path(@project, story)%></b>
+        <% else%>
+            Edit
+        <% end %>
+      </td>
+      <td align="center">
+        <% if (current_user && @project.id == current_user.project_id) || current_user.admin %>
+            <b><%= link_to 'Destroy',[story.project,story],method: :delete, data:{confirm: 'are you sure?'}%></b>
+        <% else %>
+            Destroy
+        <% end%>
+      </td>
+      <td align="center">
+        <% if current_user.project_id == @project.id && story.users.count==2 && current_user.story_id ==nil%>
+            <b><%= link_to 'replace', project_story_path(@project, story)%></b>
+        <% else %>
+            replace
+        <% end %>
+      </td>
+    </tr>
 <% end %>
-<% if current_user&& !current_user.admin? && @project.id == current_user.project_id %>
+</table>
+<% else %>
+    There is no story in this project right now, please create one!
+    <br>
+<% end %>
+
+
+<br>
+<% if (current_user && @project.id == current_user.project_id)|| current_user.admin %>
 <%= render 'form' %>
 <% end %>
-<%= link_to 'Back', @project%>
+<br>
+<b><u><%= link_to 'Back', @project%></u></b>

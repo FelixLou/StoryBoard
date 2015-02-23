@@ -1,22 +1,19 @@
 <%= form_for([@project, @project.stories.build]) do |p| %>
-    <p>
-      <%= p.label :title %><br>
-      <%= p.text_field :title %>
-    </p>
-    <p>
-      <%= p.label :description %><br>
-      <%= p.text_area :description %>
-    </p>
-    <p>
-      <%= p.label :point %><br>
-      <%= p.text_field :point %>
-    </p>
-    <p>
-      <%= p.label :stage %><br>
-      <%= p.select(:stage,[['Analysis', 'Analysis'],['Ready For Dev','Ready For Dev'], ['In Dev', 'In Dev'],['Dev Complete','Dev Complete'],['In Test','In Test'],['Complete','Complete']]) %>
-    </p>
-
-    <p>
-      <%= p.submit %>
-    </p>
+    <strong>create new story</strong>
+    <table border="2">
+      <tr>
+        <td align="center"><%= p.label :title %></td>
+        <td align="center"><%= p.label :description %></td>
+        <td align="center"><%= p.label :point %></td>
+        <td align="center"><%= p.label :stage %></td>
+        <td align="center"></td>
+      </tr>
+      <tr>
+        <td><%= p.text_field :title %></td>
+        <td><%= p.text_field :description %></td>
+        <td><%= p.text_field :point %></td>
+        <td><%= p.select(:stage,[['Analysis', 'Analysis'],['Ready For Dev','Ready For Dev'], ['In Dev', 'In Dev'],['Dev Complete','Dev Complete'],['In Test','In Test'],['Complete','Complete']]) %></td>
+        <td><%= p.submit %></td>
+      </tr>
+    </table>
 <% end %>
