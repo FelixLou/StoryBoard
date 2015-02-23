@@ -1,19 +1,46 @@
+<br><br><br>
+<strong>Search Result:</strong>
+<br><br>
+<table border="2">
+  <tr>
+    <td align="center" width="100">Title</td>
+    <td align="center" width="100">Description</td>
+    <td align="center" width="100">Point</td>
+    <td align="center" width="100">Stage</td>
+    <td align="center" width="100">Developer1</td>
+    <td align="center" width="100">Developer2</td>
+  </tr>
 <% if @stories!=nil%>
     <% @stories.each do |s|%>
-        <% if s.project_id == @project.id%>
-        <p><b>search result</b></p>
-        <p><b>title:</b></p><%= s.title%>
-        <p><b>description:</b></p><%= s.description%>
-        <p><b>point:</b></p><%= s.point%>
-        <p><b>stage:</b></p><%= s.stage%>
-        <p><b>developer:</b></p>
-        <% s.users.each do|u|%>
-            <p>name:<%= u.name%></p>
-            <p>email:<%= u.email%></p>
-            <p>-------------------</p>
-        <% end%>
-        <% end %>
+          <% if s.project_id == @project.id%>
+          <tr>
+            <td align="center">
+              <%= s.title%>
+            </td>
+            <td align="center">
+              <%= s.description%>
+            </td>
+            <td align="center">
+              <%= s.point%>
+            </td>
+            <td align="center">
+              <%= s.stage%>
+            </td>
+            <td align="center">
+              <% if s.users[0] %>
+                <%= s.users[0].name+" ("+s.users[0].email+")"%>
+              <% end%>
+            </td>
+            <td align="center">
+              <% if s.users[1] %>
+                  <%= s.users[1].name+" ("+s.users[1].email+")"%>
+              <% end%>
+            </td>
+          </tr>
+          <% end %>
     <% end %>
 <%end%>
-<p></p>
-<%=link_to 'Back', project_stories_path(@project)%>
+</table>
+<br><br>
+
+<b><u><%=link_to 'Back', project_stories_path(@project)%></u></b>

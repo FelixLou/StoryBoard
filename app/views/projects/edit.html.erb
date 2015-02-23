@@ -1,31 +1,55 @@
 <h1>Editing project</h1>
 
     <p><b>old value</b></p>
-    <p>
-      <strong>Title:</strong>
-      <%= @project.title %>
-    </p>
-
-    <p>
-      <strong>Description:</strong>
-      <%= @project.description %>
-    </p>
+    <table border="2">
+      <tr>
+        <td align="center" width="100">Title:</td>
+        <td align="center" width="100">Description:</td>
+      </tr>
+      <tr>
+        <td align="center"><%= @project.title %></td>
+        <td align="center"><%= @project.description %></td>
+      </tr>
+    </table>
     <p>---------------------------</p>
+
+<strong>Fill new value here:</strong>
 <%= form_for @project, url: project_path(@project), method: :patch do |p| %>
-    <p>
-      <%= p.label :title %><br>
-      <%= p.text_field :title %>
+    <table border="2">
+      <tr>
+        <td align="center" width="180"><%= p.label :title %></td>
+        <td align="center" width="180"><%= p.label :description %></td>
+      </tr>
+      <tr>
+        <td align="center"><%= p.text_field :title %></td>
+        <td align="center"><%= p.text_field :description %></td>
+      </tr>
+    </table>
+    <br>
+     <p>
+       <% if current_user.admin%>
+       <%= p.label :developers %><br>
+       <% if @chosen_dev %>
+          <% @chosen_dev.each do |developer| %>
+            <%= check_box_tag "developer_ids[]", developer.id, true%>
+          <%= developer.name+" ("+developer.email+")"%>
+          <br>
+          <% end %>
+        <% end %>
+      
+        <% if @developers %>
+          <% @developers.each do |developer| %>
+            <%= check_box_tag "developer_ids[]", developer.id%>
+          <%= developer.name+" ("+developer.email+")" %>
+          <br>
+          <% end %>
+        <% end %>
+         <% end %>
     </p>
-
-    <p>
-      <%= p.label :description %><br>
-      <%= p.text_area :description %>
-    </p>
-
     <p>
       <%= p.submit 'update' %>
     </p>
 
 <% end %>
 
-<%= link_to 'Back', projects_path %>
+<b><u><%= link_to 'Back', projects_path %></u></b>

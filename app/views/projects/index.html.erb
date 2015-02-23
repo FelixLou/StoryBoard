@@ -1,25 +1,38 @@
 <h1>Listing projects</h1>
+<h2>ATTENTION: Only if you have the right to click a button, the button is able to be clicked!</h2>
 <% if current_user.admin? %>
-<%= link_to 'New Project', new_project_path %>
+<p><b><u><%= link_to 'New Project', new_project_path %></u></b></p>
 <% end %>
-<table>
+
+<table align="left" border="2">
+  <thead>
   <tr>
-    <th width="100">Title</th>
-    <th width="100">Description</th>
+    <td align="center">Title</td>
+    <th colspan="3"></th>
   </tr>
-
-  <% @projects.each do |p| %>
+  </thead>
+  <tbody>
+    <% @projects.each do |p| %>
       <tr>
-        <td><%= p.title %></td>
-        <td><%= p.description %></td>
-        <td width = "50"><%= link_to 'Show', project_path(p)%></td>
-        <% if current_user.project_id == p.id %>
-        <td width = "50"><%= link_to 'Edit  ', edit_project_path(p)%></td>
-        <% end %>
-        <% if current_user.admin? || current_user.project_id == p.id%>
-            <td width ="50"><%= link_to 'Destroy  ', project_path(p), method: :delete,data:{confirm: 'Are you sure?'}%></td>
-        <% end %>
+        <td width="150" align="center"><%= p.title %></td>
+        <td width="100" align="center"><u><b><%= link_to 'Show', project_path(p)%></b></u></td>
+        <td width="100" align="center">
+            <% if current_user.project_id == p.id || current_user.admin %>
+              <u><b><%= link_to 'Edit  ', edit_project_path(p)%></b></u>
+             <% else %>
+                Edit
+            <% end %>
+        </td>
+        <td width="100" align="center">
+          <% if current_user.admin? || current_user.project_id == p.id%>
+              <u><b><%= link_to 'Destroy  ', project_path(p), method: :delete,data:{confirm: 'Are you sure?'}%></b></u>
+          <% else %>
+             Destroy
+          <% end %>
+        </td>
       </tr>
-  <% end %>
-
+    <% end %>
+  </tbody>
 </table>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br>

@@ -1,4 +1,5 @@
 <h1>Show Project</h1>
+<h2>ATTENTION: Only if you have the right to click a button, the button is able to be clicked!</h2>
 <p>
   <strong>Title:</strong>
   <%= @project.title %>
@@ -10,30 +11,62 @@
 </p>
 
 <p>
-  <strong>StoryBoard</strong>
-  <p>Analysis <%= @point1%></p>
-  <p>Ready For Dev <%= @point2%></p>
-  <p>In Dev <%= @point3%></p>
-  <p>Dev Complete <%= @point4 %></p>
-  <p>In Test <%= @point5 %></p>
+<strong>storyboard:</strong>
+  <table title="storyboard" border="2">
+  <tr>
+    <td width="100" align="center">Analysis</td>
+    <td width="100" align="center">Ready For Dev</td>
+    <td width="100" align="center">In Dev</td>
+    <td width="100" align="center">Dev Complete</td>
+    <td width="100" align="center">In Test</td>
+  </tr>
+  <tr>
+    <td align="center"><%= @point1%></td>
+    <td align="center"><%= @point2%></td>
+    <td align="center"><%= @point3%></td>
+    <td align="center"><%= @point4%></td>
+    <td align="center"><%= @point5%></td>
+  </tr>
+  </table>
 </p>
 
 <p>
   <strong>Developer:</strong>
-  <% @project.users.each do |u| %>
-    <p>Name:<%= u.name %></p>
-    <p>Email:<%= u.email %></p>
-    <p>---------------------</p>
-  <% end %>
+  <table border="2">
+    <tr>
+      <td width="100" align="center">Name</td>
+      <td width="100" align="center">Email</td>
+    </tr>
+    <% @project.users.each do |u| %>
+    <tr>
+        <td align="center"><%= u.name %></td>
+        <td align="center"><%= u.email %></td>
+    </tr>
+    <% end %>
+  </table>
 </p>
-<% if current_user&&current_user.admin? %>
-<%=form_for @user,url: project_path(@project) do |f| %>
-    <%= f.label :email%>
-    <%= f.email_field :email%>
-    <%= f.submit 'add' %>
-<% end%>
-<% end %>
 
-<p></p>
-<%= link_to 'ShowStories',project_stories_path(@project) %>
-<%= link_to 'Back', projects_path%>
+<% if current_user.project_id == @project.id || current_user.admin %>
+    <b><u><%= link_to 'Edit Project ', edit_project_path(@project)%></u></b>
+<% end %>
+<br><br>
+<strong>search for projects:</strong>
+<%=form_for :story, url: search_path(@project) do |f|%>
+    <table border="2">
+      <tr>
+        <td align="center"><%=f.label :title%></td>
+        <td align="center"><%=f.label :description%></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><%=f.text_field :title%></td>
+        <td><%=f.text_field :description%></td>
+        <td><%=f.submit 'search'%></td>
+      </tr>
+    </table>
+<%end%>
+
+<br>
+<b><u><%= link_to 'Show All Stories',project_stories_path(@project) %></u></b>
+<br><br>
+<b><u><%= link_to 'Back', projects_path%></u></b>
