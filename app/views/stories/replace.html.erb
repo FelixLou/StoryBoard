@@ -1,38 +1,71 @@
 <h1>replace</h1>
-
-<p>
-  <strong>Title:</strong>
-  <%= @story.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @story.description %>
-</p>
-
-<p>
-  <strong>Point:</strong>
-  <%= @story.point %>
-</p>
-
-<p>
-  <strong>Stage:</strong>
-  <%= @story.stage %>
-</p>
-<p>-------------------------</p>
-
+<strong>Story Information:</strong>
+<br><br>
+<table border="2">
+  <tr>
+    <td align="center" width="150">Title:</td>
+    <td align="center" width="150">Description</td>
+    <td align="center" width="150">Point</td>
+    <td align="center" width="150">Stage</td>
+  </tr>
+  <tr>
+    <td align="center"><%= @story.title%></td>
+    <td align="center"><%= @story.description%></td>
+    <td align="center"><%= @story.point%></td>
+    <td align="center"><%= @story.stage%></td>
+  </tr>
+</table>
+<br>
+<p>----------------------------------------------------------------------------</p>
+<strong>developers:</strong>
+<br><br>
 <%= form_for :user, url:project_story_path(@project,@story) do |f| %>
-    <p><%=f.label :name%><%= ": "+@story.users[0].name %></p>
-    <p><%=f.label :email%><%= ": "+@story.users[0].email %></p>
-        <%=f.hidden_field :id,:value =>@story.users[0].id%>
-    <%= f.submit 'replace'%>
-    <p></p>
+    <table border="1">
+      <tr>
+        <td width="100" align="center">
+          <%=f.label :name%>
+        </td>
+        <td width="100" align="center">
+          <%=f.label :email%>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td width="100" align="center">
+          <%= @story.users[0].name %>
+        </td>
+        <td width="100" align="center">
+          <%= @story.users[0].email %>
+        </td>
+        <td>
+          <%=f.hidden_field :id,:value =>@story.users[0].id%>
+          <%= f.submit 'replace'%>
+        </td>
+      </tr>
+    </table>
 <% end %>
-
 <%= form_for :user, url:project_story_path(@project,@story) do |f| %>
-    <p><%=f.label :name%><%= ": "+@story.users[1].name %></p>
-    <p><%=f.label :email%><%= ": "+@story.users[1].email %></p>
-    <%=f.hidden_field :id,:value =>@story.users[1].id%>
-    <%= f.submit 'replace'%>
-    <p></p>
+    <table border="1">
+      <tr>
+        <td width="100" align="center">
+          <%=f.label :name%>
+        </td>
+        <td width="100" align="center">
+          <%=f.label :email%>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td width="100" align="center">
+          <%= @story.users[1].name %>
+        </td>
+        <td width="100" align="center">
+          <%= @story.users[1].email %>
+        </td>
+        <td>
+          <%=f.hidden_field :id,:value =>@story.users[1].id%>
+          <%= f.submit 'replace'%>
+        </td>
+      </tr>
+    </table>
 <% end %>
