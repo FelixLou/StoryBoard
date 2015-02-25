@@ -1,63 +1,100 @@
 <% provide(:title, 'Profile') %>
 <h1>User Profile</h1>
-<p>
-  <b>Name:</b><br>
-  <%= @user.name %><br>
-  <b>Email:</b><br>
-  <%= @user.email %><br>
-  <b>Role:</b><br>
-  <% if@user.admin %>
-      Administer
-  <%else%>
-      Developer
-  <%end%>
-</p>
-<p>----------------</p>
+<table border="2">
+  <tr>
+    <td width="100" align="center">Name:</td>
+    <td width="100" align="center">Email:</td>
+    <td width="100" align="center">Role:</td>
+  </tr>
+  <tr>
+    <td align="center"><%= @user.name %></td>
+    <td align="center"><%= @user.email %></td>
+    <td align="center">
+      <% if@user.admin %>
+          Administer
+      <%else%>
+          Developer
+      <%end%>
+    </td>
+  </tr>
+</table>
+
+<p>---------------------------------------------------</p>
+<p><b>Created Stories:</b></p>
 <% if Story.find_by( createdby: current_user.id)!=nil%>
-    <p><strong>created stories</strong></p>
+    <table border="2">
+      <tr>
+        <td width="100" align="center">Project_Title:</td>
+        <td width="100" align="center">Title</td>
+        <td width="100" align="center">Description</td>
+        <td width="100" align="center">Point</td>
+        <td width="100" align="center">Stage</td>
+        <td width="100" align="center">Developer1</td>
+        <td width="100" align="center">Developer2</td>
+      </tr>
     <% Story.where(:createdby => current_user.id).each do |s|%>
-        <p><strong>Project:</strong></p>
-        <p>Title:<%=s.project.title%></p>
-        <p>Description:<%=s.project.description%></p>
-        <p><strong>Story:</strong></p>
-        <p>Title:<%=s.title%></p>
-        <p>Description:<%=s.description%></p>
-        <p>Point:<%=s.point%></p>
-        <p>Stage:<%=s.stage%></p>
-        <p>
-          Developer:
-          <% s.users.each do |u| %>
-            <p>Name:<%= u.name %></p>
-            <p>Email:<%= u.email %></p>
+       <tr>
+         <td align="center"><%=s.project.title%></td>
+         <td align="center"><%=s.title%></td>
+        <td align="center"><%=s.description%></td>
+        <td align="center"><%=s.point%></td>
+        <td align="center"><%=s.stage%></td>
+        <td align="center">
+          <% if s.users[0] %>
+            <%= s.users[0].name%>
           <% end %>
-        </p>
-    <p>----------------</p>
+        </td>
+        <td align="center">
+          <% if s.users[1] %>
+            <%= s.users[1].name%>
+          <% end %>
+        </td>
+
     <%end%>
+    </table>
+<% else %>
+    This user haven't created any story !
 <%end%>
+<p>---------------------------------------------------</p>
+
+<p><b>Signed Stories:</b></p>
 <% if current_user.story_id!=nil%>
-<p><b>signed story</b></p>
-<p><strong>Project:</strong></p>
-<p>Title:<%=Project.find(current_user.project_id).title%></p>
-<p>Description:<%=Project.find(current_user.project_id).description%></p>
-<p><strong>Story:</strong></p>
-<p>Title:<%=Story.find(current_user.story_id).title%></p>
-<p>Description:<%=Story.find(current_user.story_id).description%></p>
-<p>Point:<%=Story.find(current_user.story_id).point%></p>
-<p>Stage:<%=Story.find(current_user.story_id).stage%></p>
-    <p>
-      Developer:
-      <% Story.find(current_user.story_id).users.each do |u| %>
-        <p>Name:<%= u.name %></p>
-        <p>Email:<%= u.email %></p>
-    <% end %>
-    </p>
-    <%= link_to 'Edit', edit_project_story_path(Project.find(current_user.project_id), Story.find(current_user.story_id))%>
-    <%= link_to 'DestroyStory',[Project.find(current_user.project_id),Story.find(current_user.story_id)],method: :delete, data:{confirm: 'are you sure?'}%>
-<p>----------------</p>
+    <table border="2">
+      <tr>
+        <td width="100" align="center">Project_Title:</td>
+        <td width="100" align="center">Title</td>
+        <td width="100" align="center">Description</td>
+        <td width="100" align="center">Point</td>
+        <td width="100" align="center">Stage</td>
+        <td width="100" align="center">Developer1</td>
+        <td width="100" align="center">Developer2</td>
+      </tr>
+      <tr>
+            <td align="center"><%=Project.find(current_user.project_id).title%></td>
+            <td align="center"><%=Story.find(current_user.story_id).title%></td>
+            <td align="center"><%=Story.find(current_user.story_id).description%></td>
+            <td align="center"><%=Story.find(current_user.story_id).point%></td>
+            <td align="center"><%=Story.find(current_user.story_id).stage%></td>
+            <td align="center">
+              <% if Story.find(current_user.story_id).users[0] %>
+                  <%= Story.find(current_user.story_id).users[0].name%>
+              <% end %>
+            </td>
+            <td align="center">
+              <% if Story.find(current_user.story_id).users[1] %>
+                  <%= Story.find(current_user.story_id).users[1].name%>
+              <% end %>
+            </td>
+      </tr>
+    </table>
+<% else %>
+    This user haven't signed up any story !
 <%end%>
-<%= link_to "show all projects", projects_path %>
+
+<p>---------------------------------------------------</p>
+
+<b><u><%= link_to "show all projects", projects_path %></u></b>
 <% if current_user.admin? && current_user?(@user)%>
-    <div><%= link_to "add people", signup_path %></div>
-
-
+    <br><br>
+    <b><u><%= link_to "New User", signup_path %></u></b>
 <%end%>

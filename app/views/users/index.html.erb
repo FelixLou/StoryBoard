@@ -1,15 +1,55 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
-<ul class="users">
+<% if current_user.admin? %>
+ <p><b><u><%= link_to "New User", signup_path %></u></b></p>
+<table border="2">
+  <tr>
+    <td width="100" align="center">Name:</td>
+    <td width="100" align="center">Role:</td>
+    <td width="100" align="center">Operation:</td>
+  </tr>
   <% @users.each do |user| %>
-    <li>
-      <%= link_to user.name, user %>
-      <%if current_user.admin? && !current_user?(user)%>
-      | <%= link_to "delete", user, method: :delete,data: {confirm: "You sure?"}%>
-      <%end%>
-      
-     
-    </li>
+    <tr>
+      <td align="center">
+        <b><%= link_to user.name, user %></b>
+      </td>
+      <td align="center">
+        <%if user.admin?%>
+            Admin
+        <% else %>
+            Developer
+        <% end %>
+      </td>
+      <td align="center">
+        <%if !current_user?(user)%>
+            <b><%= link_to "delete", user, method: :delete,data: {confirm: "You sure?"}%></b>
+        <%end%>
+      </td>
+    </tr>
   <% end %>
-</ul>
+</table>
+    <br>
+   
+<% else %>
+    <table border="2">
+      <tr>
+        <td width="100" align="center">Name:</td>
+        <td width="100" align="center">Admin:</td>
+      </tr>
+      <% @users.each do |user| %>
+          <tr>
+            <td align="center">
+              <b><%= link_to user.name, user %></b>
+            </td>
+            <td align="center">
+              <%if user.admin?%>
+                  Yes
+              <% else %>
+                  No
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
