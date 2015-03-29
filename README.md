@@ -1,9 +1,13 @@
 #CSC517 Project 1
 
 there are already one admin in the application
+
 website: https://arcane-stream-9556.herokuapp.com/
+
 name: admin
+
 email: admin@ncsu.edu
+
 password: admin@ncsu.edu
 
 for mail function, the code is located in:
